@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Tasks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card-minimized {
+            height: 3rem;
+            overflow: hidden;
+        }
+        .card-minimized .card-description {
+            display: none;
+        }
+        .card-closed {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-8">
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold text-slate-900 mb-2">Flash Tasks</h1>
+            <p class="text-slate-600">Manage your tasks efficiently with interactive cards</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for task in tasks %}
+            <div id="card-{{ task.id }}" class="card bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                <div class="p-6">
+                    <div class="flex items-start justify-between mb-3">
+                        <h2 class="text-xl font-semibold text-slate-900 flex-1">{{ task.heading }}</h2>
+                        <div class="flex gap-2 ml-2">
+                            <button 
+                                onclick="toggleMinimize('{{ task.id }}')" 
+                                class="minimize-btn text-slate-400 hover:text-slate-600 transition-colors"
+                                title="Minimize"
+                                aria-label="Minimize task">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15" />
+                                </svg>
+                            </button>
+                            <button 
+                                onclick="closeCard('{{ task.id }}')" 
+                                class="close-btn text-slate-400 hover:text-red-600 transition-colors"
+                                title="Close"
+                                aria-label="Close task">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="card-description text-slate-600 leading-relaxed">{{ task.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if not tasks %}
+        <div class="text-center py-16">
+            <p class="text-slate-500 text-lg">No tasks found. Add tasks to tasks.yaml to get started.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function closeCard(id) {
+            const card = document.getElementById(`card-${id}`);
+            card.classList.add('card-closed');
+        }
+
+        function toggleMinimize(id) {
+            const card = document.getElementById(`card-${id}`);
+            card.classList.toggle('card-minimized');
+        }
+    </script>
+</body>
+</html>
