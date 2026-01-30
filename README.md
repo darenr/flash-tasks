@@ -36,6 +36,21 @@ python app.py
 http://localhost:5000
 ```
 
+### Configuration
+
+The application can be configured using environment variables:
+
+- `FLASK_DEBUG`: Enable debug mode (default: `False`)
+- `FLASK_HOST`: Host to bind to (default: `127.0.0.1`)
+- `FLASK_PORT`: Port to run on (default: `5000`)
+
+Example with custom configuration:
+```bash
+FLASK_DEBUG=true FLASK_HOST=0.0.0.0 FLASK_PORT=8080 python app.py
+```
+
+**Security Note**: Never run with `FLASK_DEBUG=true` in production environments.
+
 ## Configuration
 
 Tasks are defined in `tasks.yaml`. Each task should have the following structure:
