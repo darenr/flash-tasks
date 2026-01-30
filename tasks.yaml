@@ -1,7 +1,7 @@
 tasks:
   - id: 1
     heading: "Welcome to Flash Tasks"
-    description: "This is a sample task card. You can close or minimize it using the controls in the top right corner."
+    description: "This is a **sample task card**. You can close or minimize it using the controls in the top right corner."
   
   - id: 2
     heading: "Add New Features"
