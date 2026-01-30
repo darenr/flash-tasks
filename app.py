@@ -8,7 +8,7 @@ def load_tasks():
     """Load tasks from the YAML file."""
     yaml_path = os.path.join(os.path.dirname(__file__), 'tasks.yaml')
     try:
-        with open(yaml_path, 'r') as file:
+        with open(yaml_path, 'r', encoding='utf-8') as file:
             data = yaml.safe_load(file)
             return data.get('tasks', [])
     except FileNotFoundError:

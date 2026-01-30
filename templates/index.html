@@ -33,17 +33,19 @@
                         <h2 class="text-xl font-semibold text-slate-900 flex-1">{{ task.heading }}</h2>
                         <div class="flex gap-2 ml-2">
                             <button 
-                                onclick="toggleMinimize({{ task.id }})" 
+                                onclick="toggleMinimize('{{ task.id }}')" 
                                 class="minimize-btn text-slate-400 hover:text-slate-600 transition-colors"
-                                title="Minimize">
+                                title="Minimize"
+                                aria-label="Minimize task">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15" />
                                 </svg>
                             </button>
                             <button 
-                                onclick="closeCard({{ task.id }})" 
+                                onclick="closeCard('{{ task.id }}')" 
                                 class="close-btn text-slate-400 hover:text-red-600 transition-colors"
-                                title="Close">
+                                title="Close"
+                                aria-label="Close task">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
