@@ -4,15 +4,29 @@ import os
 import markdown
 import argparse
 import glob
+import re
 from loguru import logger
 
 
 app = Flask(__name__)
 
 
+def slugify(text):
+    """Create a URL/ID safe slug from text."""
+    text = str(text).lower().strip()
+    text = re.sub(r"[\W_]+", "-", text)
+    return text.strip("-")
+
+
 def process_task(task):
     """Process a single task to render markdown and determine layout."""
-    task_id = task.get("id", "unknown")
+    # Use heading as primary key/id
+    if "heading" in task:
+        task["id"] = slugify(task["heading"])
+    else:
+        task["id"] = "unknown"
+
+    task_id = task["id"]
     logger.debug(f"Processing task {task_id}")
 
     if "description" in task:
@@ -23,7 +37,7 @@ def process_task(task):
         # Determine if card should be wide
         # Check for code blocks or long descriptions (> 200 chars)
         has_code = "<pre>" in html_desc
-        is_long = len(raw_desc) > 200
+        is_long = len(raw_desc.split()) > 20
         task["is_wide"] = has_code or is_long
         logger.debug(
             f"Task {task_id}: is_wide={task['is_wide']} (code={has_code}, long={is_long})"

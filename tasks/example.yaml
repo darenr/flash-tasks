@@ -1,26 +1,20 @@
 tasks:
-  - id: 1
-    heading: "Welcome to Flash Tasks"
+  - heading: "Welcome to Flash Tasks"
     description: "This is a **sample task card**. You can close or minimize it using the controls in the top right corner."
   
-  - id: 2
-    heading: "Add New Features"
+  - heading: "Add New Features"
     description: "Implement new features for the application. This could include adding new card types, custom styling, or additional functionality."
   
-  - id: 3
-    heading: "Review Code"
+  - heading: "Review Code"
     description: "Review the codebase for any potential improvements or optimizations. Check for code quality and maintainability."
   
-  - id: 4
-    heading: "Update Documentation"
+  - heading: "Update Documentation"
     description: "Ensure all documentation is up to date with the latest changes. Include usage examples and API references."
   
-  - id: 5
-    heading: "Test Coverage"
+  - heading: "Test Coverage"
     description: "Write comprehensive tests for all components. Aim for high code coverage and edge case handling."
 
-  - id: 7
-    heading: "Code Snippet Example"
+  - heading: "Code Snippet Example"
     description: |
       Here is a python example:
       ```python
@@ -31,10 +25,8 @@ tasks:
       This card should span two columns because it contains a code block.
 
   
-  - id: 6
-    heading: "Deploy Application"
+  - heading: "Deploy Application"
     description: "Set up deployment pipeline and deploy the application to production. Configure monitoring and logging."
 
-  - id: 8
-    heading: "Long Description Example"
+  - heading: "Long Description Example"
     description: "This is a very long description to test the double width feature. It needs to be at least 200 characters long to trigger the layout change. We want to ensure that cards with substantial text content are given more space to improve readability. This helps user to read the content without feeling cramped. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
