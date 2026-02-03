@@ -111,7 +111,19 @@ if __name__ == "__main__":
     # Configure app based on args
     input_path = os.path.abspath(args.input_path)
     app.config["TASKS_SOURCE"] = input_path
-    app.config["PAGE_TITLE"] = os.path.basename(input_path)
+
+    # Determine a nice title
+    title_source = os.path.basename(input_path)
+    # If it's a file, strip extension
+    if os.path.isfile(input_path):
+        title_source = os.path.splitext(title_source)[0]
+
+    # Capitalize and replace separators
+    clean_title = title_source.replace("-", " ").replace("_", " ").title()
+    if not clean_title:
+        clean_title = "Flash Tasks"
+
+    app.config["PAGE_TITLE"] = clean_title
 
     # Get configuration from environment variables
     debug_mode = os.environ.get("FLASK_DEBUG", "False").lower() == "true"
