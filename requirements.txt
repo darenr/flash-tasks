@@ -1,5 +1,8 @@
-Flask==3.0.3
-PyYAML==6.0.1
+Flask
+PyYAML
 markdown
+loguru
 
 Pygments
+google-genai
+openai
