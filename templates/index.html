@@ -254,11 +254,10 @@
                     // If we are mid-row, we must fill the rest of the row before this item
                     const gaps = (cols - currentSlot) % cols;
                     if (gaps > 0) {
-                        for (let i = 0; i < gaps; i++) {
-                            const filler = createFiller();
-                            // Insert before the wide task
-                            grid.insertBefore(filler, task);
-                        }
+                        const filler = createFiller();
+                        if (gaps > 1) filler.classList.add(`col-span-${gaps}`);
+                        // Insert before the wide task
+                        grid.insertBefore(filler, task);
                     }
                     // Wide task consumes a full row effectively for checking purposes, 
                     // or resets the counter.
@@ -275,10 +274,9 @@
             // 4. Fill trailing gaps at the very end
             const trailingGaps = (cols - currentSlot) % cols;
             if (trailingGaps > 0) {
-                for (let i = 0; i < trailingGaps; i++) {
-                    const filler = createFiller();
-                    grid.appendChild(filler);
-                }
+                const filler = createFiller();
+                if (trailingGaps > 1) filler.classList.add(`col-span-${trailingGaps}`);
+                grid.appendChild(filler);
             }
         }
 
