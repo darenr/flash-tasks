@@ -85,7 +85,7 @@
             <p class="text-slate-600 dark:text-slate-400 text-lg">Here are your active tasks for today</p>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div id="task-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for task in tasks %}
             <div id="card-{{ task.id }}"
                 class="card group flex flex-col bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 overflow-hidden {% if task.is_wide %}col-span-full{% endif %}">
@@ -203,6 +203,93 @@
             const card = document.getElementById(`card-${id}`);
             card.classList.toggle('card-minimized');
         }
+
+        /* Mid-Century Modern Color Swatches Logic */
+        const mcmColors = [
+            '#E76F51', // Burnt Sienna
+            '#2A9D8F', // Persian Green
+            '#E9C46A', // Sand
+            '#F4A261', // Sandy Brown
+            '#264653', // Charcoal
+            '#AAB3AB', // Sage
+            '#C05746', // Clay
+            '#D4A373', // Tan
+            '#CCD5AE', // Pale Olive
+        ];
+
+        function createFiller() {
+            const filler = document.createElement('div');
+            filler.className = 'grid-filler min-h-[100px] h-full rounded-2xl shadow-sm transition-all duration-500 hover:scale-[1.02]';
+            const color = mcmColors[Math.floor(Math.random() * mcmColors.length)];
+            filler.style.backgroundColor = color;
+            filler.style.opacity = '0.85';
+            return filler;
+        }
+
+        function fillGrid() {
+            const grid = document.getElementById('task-grid');
+            if (!grid) return;
+
+            // 1. Clear existing fillers
+            grid.querySelectorAll('.grid-filler').forEach(el => el.remove());
+
+            // 2. Determine column count
+            const width = window.innerWidth;
+            let cols = 1;
+            if (width >= 1024) cols = 3;      // lg breakpoint
+            else if (width >= 768) cols = 2;  // md breakpoint
+
+            if (cols === 1) return; // No filling needed for single column stack
+
+            // 3. Iterate and fill gaps
+            let currentSlot = 0;
+            // Get LIVE list of tasks (static NodeList from querySelectorAll is safer for reference, 
+            // but we will modify the parent. Creating an array is best.)
+            const tasks = Array.from(grid.children).filter(el => el.id && el.id.startsWith('card-'));
+
+            tasks.forEach(task => {
+                const isWide = task.classList.contains('col-span-full');
+
+                if (isWide) {
+                    // If we are mid-row, we must fill the rest of the row before this item
+                    const gaps = (cols - currentSlot) % cols;
+                    if (gaps > 0) {
+                        for (let i = 0; i < gaps; i++) {
+                            const filler = createFiller();
+                            // Insert before the wide task
+                            grid.insertBefore(filler, task);
+                        }
+                    }
+                    // Wide task consumes a full row effectively for checking purposes, 
+                    // or resets the counter.
+                    // Actually, after inserting fillers, the row above is full.
+                    // The wide task starts on a new row.
+                    // After the wide task, we are at slot 0 of the NEXT row?
+                    // No, col-span-full takes the whole row. So cursor is 0 (start of next row)
+                    currentSlot = 0;
+                } else {
+                    currentSlot = (currentSlot + 1) % cols;
+                }
+            });
+
+            // 4. Fill trailing gaps at the very end
+            const trailingGaps = (cols - currentSlot) % cols;
+            if (trailingGaps > 0) {
+                for (let i = 0; i < trailingGaps; i++) {
+                    const filler = createFiller();
+                    grid.appendChild(filler);
+                }
+            }
+        }
+
+        // Run on load and resize
+        window.addEventListener('load', fillGrid);
+        window.addEventListener('resize', () => {
+            // Debounce slightly or just run
+            fillGrid();
+        });
+        document.addEventListener('DOMContentLoaded', fillGrid);
+
     </script>
 </body>
 
