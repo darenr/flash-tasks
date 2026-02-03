@@ -2,51 +2,107 @@ from flask import Flask, render_template
 import yaml
 import os
 import markdown
+import argparse
+import glob
+from loguru import logger
+
 
 app = Flask(__name__)
 
 
-def load_tasks():
-    """Load tasks from the YAML file."""
-    yaml_path = os.path.join(os.path.dirname(__file__), "tasks.yaml")
-    try:
-        with open(yaml_path, "r", encoding="utf-8") as file:
-            data = yaml.safe_load(file)
-            tasks = data.get("tasks", [])
-            # Convert markdown descriptions to HTML
-            for task in tasks:
-                if "description" in task:
-                    raw_desc = task["description"]
-                    html_desc = markdown.markdown(
-                        raw_desc, extensions=["fenced_code", "codehilite"]
-                    )
-                    task["description"] = html_desc
+def process_task(task):
+    """Process a single task to render markdown and determine layout."""
+    task_id = task.get("id", "unknown")
+    logger.debug(f"Processing task {task_id}")
 
-                    # Determine if card should be wide
-                    # Check for code blocks or long descriptions (> 200 chars)
-                    has_code = "<pre>" in html_desc
-                    is_long = len(raw_desc) > 200
-                    task["is_wide"] = has_code or is_long
-            return tasks
+    if "description" in task:
+        raw_desc = task["description"]
+        html_desc = markdown.markdown(raw_desc, extensions=["fenced_code", "codehilite"])
+        task["description"] = html_desc
+
+        # Determine if card should be wide
+        # Check for code blocks or long descriptions (> 200 chars)
+        has_code = "<pre>" in html_desc
+        is_long = len(raw_desc) > 200
+        task["is_wide"] = has_code or is_long
+        logger.debug(
+            f"Task {task_id}: is_wide={task['is_wide']} (code={has_code}, long={is_long})"
+        )
+
+    return task
+
+
+def load_from_file(file_path):
+    """Load tasks from a single YAML file."""
+    logger.info(f"Loading tasks from {file_path}")
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            data = yaml.safe_load(file) or {}
+            tasks = data.get("tasks", [])
+            logger.info(f"Found {len(tasks)} tasks in {file_path}")
+            return [process_task(task) for task in tasks]
     except FileNotFoundError:
-        print(f"Warning: {yaml_path} not found. Using empty task list.")
+        logger.warning(f"Warning: {file_path} not found.")
         return []
     except yaml.YAMLError as e:
-        print(f"Error parsing YAML: {e}")
+        logger.error(f"Error parsing YAML in {file_path}: {e}")
         return []
+
+
+def load_tasks():
+    """Load tasks from the configured source."""
+    source_path = app.config.get("TASKS_SOURCE", "tasks")
+    logger.info(f"Loading tasks from source: {source_path}")
+
+    all_tasks = []
+
+    if os.path.isdir(source_path):
+        # Find all .yaml and .yml files
+        yaml_files = glob.glob(os.path.join(source_path, "*.yaml")) + glob.glob(
+            os.path.join(source_path, "*.yml")
+        )
+        yaml_files.sort()  # Consistent order
+        logger.debug(f"Found {len(yaml_files)} YAML files in directory")
+        for file_path in yaml_files:
+            all_tasks.extend(load_from_file(file_path))
+    else:
+        all_tasks = load_from_file(source_path)
+
+    logger.info(f"Total tasks loaded: {len(all_tasks)}")
+    return all_tasks
 
 
 @app.route("/")
 def index():
     """Render the main page with task cards."""
+    logger.info("Serving index page")
     tasks = load_tasks()
-    return render_template("index.html", tasks=tasks)
+    title = app.config.get("PAGE_TITLE", "Flash Tasks")
+    return render_template("index.html", tasks=tasks, title=title)
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Flash Tasks Server")
+    parser.add_argument(
+        "input_path",
+        nargs="?",
+        default="tasks/example.yaml",
+        help="Path to a tasks.yaml file or a directory containing YAML files",
+    )
+    args = parser.parse_args()
+
+    # Configure app based on args
+    input_path = os.path.abspath(args.input_path)
+    app.config["TASKS_SOURCE"] = input_path
+    app.config["PAGE_TITLE"] = os.path.basename(input_path)
+
     # Get configuration from environment variables
     debug_mode = os.environ.get("FLASK_DEBUG", "False").lower() == "true"
     host = os.environ.get("FLASK_HOST", "127.0.0.1")
     port = int(os.environ.get("FLASK_PORT", "5000"))
+
+    logger.info("Starting Flash Tasks server")
+    logger.info(f"Loading tasks from: {input_path}")
+    logger.info(f"Bind: {host}:{port}, Debug: {debug_mode}")
 
     app.run(debug=debug_mode, host=host, port=port)

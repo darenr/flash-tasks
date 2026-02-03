@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flash Tasks</title>
+    <title>{{ title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pygments.css') }}">
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script>
@@ -58,7 +58,7 @@
                     </div>
                     <h1
                         class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
-                        Flash Tasks
+                        {{ title }}
                     </h1>
                 </div>
                 <button id="theme-toggle" type="button"

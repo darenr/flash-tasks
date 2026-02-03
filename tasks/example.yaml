@@ -18,10 +18,6 @@ tasks:
   - id: 5
     heading: "Test Coverage"
     description: "Write comprehensive tests for all components. Aim for high code coverage and edge case handling."
-  
-  - id: 6
-    heading: "Deploy Application"
-    description: "Set up deployment pipeline and deploy the application to production. Configure monitoring and logging."
 
   - id: 7
     heading: "Code Snippet Example"
@@ -33,6 +29,11 @@ tasks:
           print("Hello World")
       ```
       This card should span two columns because it contains a code block.
+
+  
+  - id: 6
+    heading: "Deploy Application"
+    description: "Set up deployment pipeline and deploy the application to production. Configure monitoring and logging."
 
   - id: 8
     heading: "Long Description Example"
