@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 import yaml
 import os
-import markdown
+import mistune
 import argparse
 import glob
 import re
@@ -31,15 +31,16 @@ def process_task(task):
 
     if "description" in task:
         raw_desc = task["description"]
-        html_desc = markdown.markdown(
-            raw_desc, extensions=["fenced_code", "codehilite", "nl2br", "sane_lists"]
+        markdown = mistune.create_markdown(
+            plugins=["table", "task_lists", "url", "strikethrough"], hard_wrap=True
         )
+        html_desc = markdown(raw_desc)
         task["description"] = html_desc
 
         # Determine if card should be wide
         # Check for code blocks or long descriptions (> 200 chars)
         has_code = "<pre>" in html_desc
-        is_long = len(raw_desc.split()) > 20
+        is_long = len(raw_desc.split()) > 100
         task["is_wide"] = has_code or is_long
         logger.debug(
             f"Task {task_id}: is_wide={task['is_wide']} (code={has_code}, long={is_long})"
