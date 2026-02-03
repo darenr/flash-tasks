@@ -31,7 +31,9 @@ def process_task(task):
 
     if "description" in task:
         raw_desc = task["description"]
-        html_desc = markdown.markdown(raw_desc, extensions=["fenced_code", "codehilite"])
+        html_desc = markdown.markdown(
+            raw_desc, extensions=["fenced_code", "codehilite", "nl2br", "sane_lists"]
+        )
         task["description"] = html_desc
 
         # Determine if card should be wide
