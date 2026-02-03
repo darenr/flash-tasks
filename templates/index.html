@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flash Tasks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pygments.css') }}">
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script>
         tailwind.config = {
@@ -84,10 +85,10 @@
             <p class="text-slate-600 dark:text-slate-400 text-lg">Here are your active tasks for today</p>
         </header>
 
-        <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for task in tasks %}
             <div id="card-{{ task.id }}"
-                class="card group flex flex-col bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 overflow-hidden break-inside-avoid">
+                class="card group flex flex-col bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 overflow-hidden {% if task.is_wide %}md:col-span-2{% endif %}">
                 <div class="p-6">
                     <div class="flex items-start justify-between mb-4">
                         <h2 class="text-xl font-bold text-slate-800 dark:text-white flex-1 pr-4 leading-tight">{{

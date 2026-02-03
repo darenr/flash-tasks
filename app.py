@@ -16,7 +16,17 @@ def load_tasks():
             # Convert markdown descriptions to HTML
             for task in tasks:
                 if "description" in task:
-                    task["description"] = markdown.markdown(task["description"])
+                    raw_desc = task["description"]
+                    html_desc = markdown.markdown(
+                        raw_desc, extensions=["fenced_code", "codehilite"]
+                    )
+                    task["description"] = html_desc
+
+                    # Determine if card should be wide
+                    # Check for code blocks or long descriptions (> 200 chars)
+                    has_code = "<pre>" in html_desc
+                    is_long = len(raw_desc) > 200
+                    task["is_wide"] = has_code or is_long
             return tasks
     except FileNotFoundError:
         print(f"Warning: {yaml_path} not found. Using empty task list.")
