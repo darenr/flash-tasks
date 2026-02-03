@@ -6,37 +6,74 @@ A Flask-based web application that displays interactive task cards sourced from 
 
 ## Features
 
-- **Dynamic Card Loading**: Tasks are loaded from a YAML configuration file
-- **Interactive UI**: Each card can be minimized or closed
-- **Responsive Design**: Built with Tailwind CSS for a modern, responsive layout
-- **shadcn-inspired Design**: Clean and professional UI following shadcn design patterns
+- **Dynamic Card Loading**: Tasks are loaded from a YAML configuration file.
+- **Markdown Support**: Task descriptions support Markdown rendering, including bold, italics, lists, and more.
+- **Syntax Highlighting**: Code blocks are properly formatted and highlighted (`fenced_code` and `codehilite`).
+- **Smart Layout**: Cards containing code blocks or long descriptions are automatically adjusted to a wider layout for better readability.
+- **Interactive UI**: Each card can be minimized or closed.
+- **Responsive Design**: Built with Tailwind CSS for a modern, responsive layout.
+- **shadcn-inspired Design**: Clean and professional UI following shadcn design patterns.
 
 ## Installation
 
-1. Clone the repository:
-```bash
-git clone https://github.com/darenr/flash-tasks.git
-cd flash-tasks
-```
+### Using uv (Recommended)
 
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+This project uses `uv` for dependency management.
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/darenr/flash-tasks.git
+   cd flash-tasks
+   ```
+
+2. Sync dependencies:
+   ```bash
+   uv sync
+   ```
+
+3. Run the application:
+   ```bash
+   uv run app.py
+   ```
+
+### Using pip
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/darenr/flash-tasks.git
+   cd flash-tasks
+   ```
+
+2. Create and activate a virtual environment (optional but recommended):
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
+   ```
+
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## Usage
 
 1. Start the Flask application:
-```bash
-python app.py
-```
+   ```bash
+   # If using pip/python directly
+   python app.py
+   
+   # If using uv
+   uv run app.py
+   ```
 
 2. Open your browser and navigate to:
-```
-http://localhost:5000
-```
+   ```
+   http://localhost:5000
+   ```
 
-### Configuration
+## Configuration
+
+### Application Settings
 
 The application can be configured using environment variables:
 
@@ -49,29 +86,25 @@ Example with custom configuration:
 FLASK_DEBUG=true FLASK_HOST=0.0.0.0 FLASK_PORT=8080 python app.py
 ```
 
-**Security Note**: Never run with `FLASK_DEBUG=true` in production environments.
+### Task Configuration
 
-## Configuration
-
-Tasks are defined in `tasks.yaml`. Each task should have the following structure:
+Tasks are defined in `tasks.yaml`. You can add new tasks by following this structure:
 
 ```yaml
 tasks:
   - id: 1
     heading: "Task Title"
-    description: "Task description goes here."
-  
-  - id: 2
-    heading: "Another Task"
-    description: "Another task description."
+    description: |
+      You can use **Markdown** here.
+      
+      ```python
+      def hello():
+          print("Hello World")
+      ```
 ```
 
-### YAML Structure
-
-- `tasks`: Root array containing all task objects
-- `id`: Unique identifier for each task (integer)
-- `heading`: Task title (string)
-- `description`: Detailed task description (string)
+- **heading**: The title of the task card.
+- **description**: The body of the card (supports Markdown). Card width will automatically expand for long text or code blocks.
 
 ## Card Controls
 
@@ -86,16 +119,21 @@ Each card has two control buttons in the top-right corner:
 flash-tasks/
 ├── app.py              # Main Flask application
 ├── tasks.yaml          # Task definitions
-├── requirements.txt    # Python dependencies
+├── pyproject.toml      # Project configuration and dependencies
+├── requirements.txt    # Python dependencies (legacy)
 ├── templates/
-│   └── index.html     # Main HTML template
-└── static/            # Static assets (currently empty)
+│   └── index.html      # Main HTML template
+└── static/
+    └── css/
+        └── pygments.css # Syntax highlighting styles
 ```
 
 ## Technologies Used
 
 - **Flask**: Python web framework
 - **PyYAML**: YAML parsing library
+- **Markdown**: Text-to-HTML conversion tool
+- **Pygments**: Syntax highlighting
 - **Tailwind CSS**: Utility-first CSS framework (loaded via CDN)
 
 ## License
