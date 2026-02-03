@@ -88,7 +88,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for task in tasks %}
             <div id="card-{{ task.id }}"
-                class="card group flex flex-col bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 overflow-hidden {% if task.is_wide %}md:col-span-2{% endif %}">
+                class="card group flex flex-col bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 overflow-hidden {% if task.is_wide %}col-span-full{% endif %}">
                 <div class="p-6">
                     <div class="flex items-start justify-between mb-4">
                         <h2 class="text-xl font-bold text-slate-800 dark:text-white flex-1 pr-4 leading-tight">{{
