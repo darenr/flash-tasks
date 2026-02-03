@@ -25,7 +25,7 @@ def generate_tasks_yaml(prompt):
         "Provide the output as a JSON object with two keys:\n"
         "1. 'filename': A short, appropriate filename for these tasks ending in .yaml (e.g., 'interview-prep.yaml'). "
         "Ensure the filename is safe for file systems (lowercase, dashes instead of spaces).\n"
-        "2. 'content': The valid YAML string starting with 'tasks:', containing 'heading' and 'description' keys. "
+        "2. 'content': The valid YAML string starting with 'tasks:', containing 'heading' and 'description' keys. Both keys are required and both should be multiline strings.  "
         "Description can contain markdown.\n"
         "Return ONLY the raw JSON object, no markdown formatting."
     )
