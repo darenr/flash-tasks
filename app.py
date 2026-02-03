@@ -2,10 +2,28 @@ from flask import Flask, render_template
 import yaml
 import os
 import mistune
+from pygments import highlight
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters import html
 import argparse
 import glob
 import re
 from loguru import logger
+
+
+class HighlightRenderer(mistune.HTMLRenderer):
+    def block_code(self, code, info=None):
+        if info:
+            lang = info.split()[0]
+            try:
+                lexer = get_lexer_by_name(lang, stripall=True)
+            except:
+                lexer = get_lexer_by_name("text", stripall=True)
+        else:
+            lexer = get_lexer_by_name("text", stripall=True)
+
+        formatter = html.HtmlFormatter(cssclass="codehilite")
+        return highlight(code, lexer, formatter)
 
 
 app = Flask(__name__)
@@ -32,7 +50,9 @@ def process_task(task):
     if "description" in task:
         raw_desc = task["description"]
         markdown = mistune.create_markdown(
-            plugins=["table", "task_lists", "url", "strikethrough"], hard_wrap=True
+            renderer=HighlightRenderer(),
+            plugins=["table", "task_lists", "url", "strikethrough"],
+            hard_wrap=True,
         )
         html_desc = markdown(raw_desc)
         task["description"] = html_desc
