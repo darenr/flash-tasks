@@ -1,0 +1,64 @@
+tasks:
+  - heading: Architecting a Scalable Multi-Agent System
+    description: |
+      Design a blueprint for a multi-agent system (e.g., for automated research or complex task execution).
+      Focus on:
+      *   **Agent Interaction Protocols**: How agents communicate and collaborate.
+      *   **State Management & Persistence**: Handling long-running tasks and agent memory (short-term & long-term).
+      *   **Tool Integration**: How agents dynamically discover and use external APIs or functions.
+      *   **Scalability & Resilience**: Ensuring the system can handle increased load and recover from failures.
+      *   **Monitoring & Observability**: How to track agent performance, debug issues, and ensure ethical behavior.
+
+  - heading: Deep Dive into Agent Frameworks & Patterns
+    description: |
+      Prepare to discuss the strengths and weaknesses of popular agent architectures and frameworks:
+      *   **ReAct, CoT, Tree of Thoughts**: Explain their mechanisms, when to use each, and potential pitfalls.
+      *   **LangChain/LlamaIndex**: Be ready to discuss components (chains, agents, retrievers, vector stores) and how you've used them to build robust agentic applications.
+      *   **Autonomous Agent Patterns**: Discuss how you'd implement planning, self-correction, and reflection in an agent.
+
+  - heading: Advanced Prompt Engineering for Agentic Behavior
+    description: |
+      Master techniques for guiding LLMs in agent roles:
+      *   **Dynamic Prompting**: How to construct prompts that evolve based on agent state or observed outcomes.
+      *   **Tool Use Prompting**: Strategies for teaching LLMs to correctly invoke external tools with precise arguments.
+      *   **Constraint-Based Prompting**: How to enforce rules, safety guidelines, and desired output formats for agents.
+      *   **Mitigating Hallucinations & Bias**: Discuss prompt-based strategies to improve agent reliability and fairness.
+
+  - heading: System Design - Vector Databases & Semantic Search for Agents
+    description: |
+      Explain how vector databases and embedding models are integral to agent memory and knowledge retrieval.
+      *   **RAG (Retrieval Augmented Generation)**: Design a RAG pipeline for an agent to access vast external knowledge.
+      *   **Context Management**: Discuss strategies for managing and compressing context windows for long-running agent conversations or tasks.
+      *   **Embedding Model Selection**: How to choose appropriate embedding models based on use case and performance requirements.
+
+  - heading: Evaluating and Debugging Autonomous Agents
+    description: |
+      Develop a strategy for systematically testing and debugging agents.
+      *   **Evaluation Metrics**: What metrics would you use to measure an agent's success, efficiency, and adherence to constraints?
+      *   **Testing Methodologies**: Design unit tests, integration tests, and end-to-end tests for agent behavior.
+      *   **Debugging Tools & Techniques**: How would you identify the root cause of an agent's unexpected actions, infinite loops, or tool invocation failures?
+      *   **Human-in-the-Loop**: Discuss scenarios where human oversight or intervention is crucial.
+
+  - heading: Coding Proficiency - Algorithms & Data Structures (with an AI Lens)
+    description: |
+      Review core computer science fundamentals, focusing on areas relevant to large-scale AI systems:
+      *   **Graph Algorithms**: Useful for modeling agent states, planning paths, or knowledge graphs.
+      *   **Dynamic Programming**: For optimizing sequential decision-making processes.
+      *   **Concurrency & Parallelism**: Essential for building high-throughput agent systems.
+      *   **API Design**: If agents are consuming or providing APIs, understanding REST/GraphQL principles is key.
+
+  - heading: Leadership & Mentorship in AI Engineering
+    description: |
+      Prepare behavioral answers demonstrating senior-level capabilities:
+      *   **Leading AI Projects**: How you've taken ownership, driven technical direction, and delivered complex AI solutions.
+      *   **Mentoring Junior Engineers**: Examples of guiding team members in complex AI concepts or best practices.
+      *   **Cross-Functional Collaboration**: Experience working with product managers, researchers, and other teams to define and deliver AI features.
+      *   **Handling Technical Debt & Trade-offs**: Discuss how you balance rapid prototyping with building robust, maintainable AI systems.
+
+  - heading: Ethical AI & Safety for Autonomous Agents
+    description: |
+      Discuss the critical ethical and safety considerations when designing and deploying AI agents:
+      *   **Bias & Fairness**: How to detect and mitigate bias in agent decision-making.
+      *   **Transparency & Explainability**: Strategies for making agent behavior more understandable to users and developers.
+      *   **Control & Alignment**: How to ensure agents operate within intended boundaries and align with human values.
+      *   **Security Vulnerabilities**: Discuss potential attack vectors against agent systems and mitigation strategies.

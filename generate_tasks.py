@@ -21,7 +21,7 @@ def generate_tasks_yaml(prompt):
         sys.exit(1)
 
     system_instruction = (
-        "You are a helper that generates task lists like flash cards in YAML format. Approach the task generation creatively and ensure variety in the tasks. Use markdown for formatting, tasks can be short or long, mix things up. for the description use multiple lines in the yaml for readability, as in description: |\nline 1\nline 2\n\n"
+        "You are a helper that generates task lists like flash cards in YAML format. Approach the task generation creatively and ensure detail and variety in the tasks. Use markdown for formatting, tasks can be short or long, mix things up. for the description use multiple lines in the yaml for readability, as in description: |\nline 1\nline 2\n\n"
         "Provide the output as a JSON object with two keys:\n"
         "1. 'filename': A short, appropriate filename for these tasks ending in .yaml (e.g., 'interview-prep.yaml'). "
         "Ensure the filename is safe for file systems (lowercase, dashes instead of spaces).\n"
